@@ -1,6 +1,4 @@
 ```java
-package 이진탐색트리;
-
 class Node {
     private int key;
     private Node parent;
@@ -80,6 +78,43 @@ class BinarySearchTree {
         }
     }
 
+    public void delete(int key) {
+        Node location = findLocation(key);
 
+        if (location.getKey() != key) {
+            return; // 없으므로 삭제를 하지 않는다
+        }
+        Node a = location.getLeft();
+        Node b = location.getRight();
+        Node pt = a.getParent();
+        Node m = null;
+        Node c = null;
+
+        // 왼쪽이 없다면
+        if (a == null) {
+            c = b; // 바로 지우고자 하는 노드의 자리에 오른쪽을 붙여버린다.
+        } else { // 왼쪽이 있다면
+            c = a;
+            m = a;
+            while (m != null) {
+                m = m.getRight(); // 가장 큰 노드를 찾는다
+            }
+            if (b != null) {
+                m.setRight(b);
+            }
+        }
+
+        // 지우고자 하는 노드가 루트이다
+        if (pt == null) {
+            root = c;
+        } else {
+            c.setParent(pt);
+            if (pt.getKey() < key) {
+                pt.setRight(c);
+            } else {
+                pt.setLeft(c);
+            }
+        }
+    }
 }
 ```
